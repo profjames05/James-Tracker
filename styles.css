@@ -538,36 +538,41 @@ table tbody tr:hover {
     border-color: #667eea;
 }
 
-@media (max-width: 600px) {
+/* Mobile Phones */
+@media screen and (max-width: 600px) {
     .form-container {
-        padding: 20px;
+        padding: 30px;
+        width: 95%;
     }
 
     .auth-container h1 {
         font-size: 24px;
     }
 
-    .attendance-header {
+    .attendance-header,
+    .admin-header,
+    .filter-section {
         flex-direction: column;
         gap: 15px;
     }
 
     .admin-header {
-        flex-direction: column;
-        gap: 15px;
         text-align: center;
     }
 
     .admin-nav {
         flex-wrap: wrap;
-    }
-
-    .filter-section {
-        flex-direction: column;
+        justify-content: center;
     }
 
     .table-container {
+        width: 100%;
+        overflow-x: auto;
         font-size: 12px;
+    }
+
+    table {
+        min-width: 600px;
     }
 
     table th,
@@ -576,6 +581,83 @@ table tbody tr:hover {
     }
 
     .stats-container {
+        display: grid;
         grid-template-columns: 1fr;
+        gap: 15px;
     }
+}
+
+/* Tablets (iPad) */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    .form-container {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .attendance-header,
+    .admin-header {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+}
+
+/* Small Laptops */
+@media screen and (min-width: 1025px) and (max-width: 1440px) {
+    .form-container {
+        width: 80%;
+        max-width: 1000px;
+    }
+
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Large Screens */
+@media screen and (min-width: 1441px) {
+    .form-container {
+        width: 75%;
+        max-width: 1200px;
+    }
+
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+    }
+}
+
+/* Prevent Overflow Everywhere */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+img,
+video,
+iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
