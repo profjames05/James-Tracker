@@ -26,6 +26,10 @@
             max-width: 500px;
         }
 
+        .container:has(#adminSection:not(.hidden)) {
+            max-width: 1200px;
+        }
+
         .form-container {
             background: white;
             border-radius: 10px;
@@ -263,58 +267,177 @@
             display: none;
         }
 
-        /* Admin Dashboard Styles */
-        .admin-container {
+        /* ─── Lecturer Dashboard ─── */
+        .lect-container {
             width: 100%;
             max-width: 1200px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,100,0,.15);
+            overflow: hidden;
         }
 
-        .admin-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 10px 10px 0 0;
+        .container:has(#adminSection:not(.hidden)) {
+            max-width: 1200px;
+        }
+
+        /* Header */
+        .lect-header {
+            background: linear-gradient(135deg, #006400 0%, #228B22 60%, #2d9e2d 100%);
+            color: #fff;
+            padding: 20px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .admin-header h1 {
-            font-size: 28px;
-            margin: 0;
+        .lect-header-left { display: flex; align-items: center; gap: 14px; }
+        .lect-header-icon { font-size: 36px; line-height: 1; }
+        .lect-header-title { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: .3px; }
+        .lect-header-sub { font-size: 12px; opacity: .8; margin-top: 2px; }
+        .lect-logout-btn {
+            padding: 8px 20px;
+            background: rgba(255,255,255,.15);
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,.5);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background .2s;
         }
+        .lect-logout-btn:hover { background: rgba(255,255,255,.28); }
 
-        .admin-nav {
+        /* Navigation */
+        .lect-nav-wrapper {
+            background: #f0faf0;
+            border-bottom: 2px solid #b7ddb7;
+            overflow-x: auto;
+        }
+        .lect-nav {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 2px;
+            padding: 0 16px;
+            min-width: max-content;
+        }
+        .lect-nav-btn {
+            padding: 13px 18px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #2d6a2d;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all .2s;
+            margin-bottom: -2px;
+        }
+        .lect-nav-btn:hover { background: #e0f5e0; color: #006400; }
+        .lect-nav-btn.active {
+            border-bottom-color: #006400;
+            color: #006400;
+            background: #e0f5e0;
         }
 
-        .nav-btn {
-            padding: 10px 20px;
+        /* Content */
+        .lect-content { padding: 28px; }
+        .lect-tab-header { margin-bottom: 24px; }
+        .lect-tab-header h2 { color: #006400; font-size: 20px; margin: 0 0 4px; }
+        .lect-tab-header p  { color: #666; font-size: 13px; margin: 0; }
+        .lect-section-header { margin: 28px 0 12px; border-bottom: 2px solid #e0f5e0; padding-bottom: 8px; }
+        .lect-section-header h3 { color: #228B22; margin: 0; }
+
+        /* Stat cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #006400 0%, #228B22 100%);
+            color: #fff;
+            padding: 20px 16px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,100,0,.2);
+        }
+        .stat-card-green { background: linear-gradient(135deg, #155724 0%, #28a745 100%); }
+        .stat-card-red   { background: linear-gradient(135deg, #7b1c1c 0%, #dc3545 100%); }
+        .stat-card-amber { background: linear-gradient(135deg, #7a5500 0%, #fd7e14 100%); }
+        .stat-icon { font-size: 22px; margin-bottom: 6px; }
+        .stat-card h3 { margin: 0 0 8px; font-size: 12px; opacity: .9; text-transform: uppercase; letter-spacing: .6px; }
+        .stat-card .stat-value { font-size: 36px; font-weight: 700; line-height: 1; }
+
+        /* filter-section / filter-btn overrides for green theme */
+        .filter-section { background: #f0faf0; border: 1px solid #c8e6c9; border-radius: 8px; padding: 16px; gap: 12px; }
+        .filter-btn {
+            padding: 9px 20px;
+            background: linear-gradient(135deg, #006400 0%, #228B22 100%);
+            color: #fff;
             border: none;
-            background: #f0f0f0;
-            color: #333;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s;
+            font-size: 13px;
+            transition: opacity .2s, transform .15s;
+            align-self: flex-end;
         }
+        .filter-btn:hover { opacity: .88; transform: translateY(-1px); }
+        .lect-btn-grey { background: #6c757d !important; }
 
-        .nav-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        /* aw-toolbar */
+        .aw-toolbar { display: flex; gap: 10px; margin-bottom: 16px; }
+
+        /* attendance window live badges */
+        .aw-badge-open    { background:#d4edda; color:#155724; }
+        .aw-badge-late    { background:#fff3cd; color:#856404; }
+        .aw-badge-closed  { background:#f8d7da; color:#721c24; }
+        .aw-badge-pending { background:#e2e3e5; color:#383d41; }
+
+        /* Profile card */
+        .lect-profile-card {
+            background: #f8fff8;
+            border: 1px solid #c8e6c9;
+            border-radius: 10px;
+            padding: 24px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
         }
+        .lect-profile-avatar { font-size: 64px; line-height: 1; flex-shrink: 0; }
+        .lect-profile-info { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .lect-profile-field { display: flex; flex-direction: column; gap: 3px; }
+        .lect-profile-label { font-size: 11px; text-transform: uppercase; letter-spacing: .6px; color: #888; font-weight: 600; }
+        .lect-profile-value { font-size: 15px; color: #222; font-weight: 500; }
 
-        .nav-btn:hover {
-            transform: translateY(-2px);
+        /* Status badges */
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-present       { background:#d4edda; color:#155724; }
+        .status-late          { background:#fff3cd; color:#856404; }
+        .status-absent        { background:#f8d7da; color:#721c24; }
+        .status-excused-absence,
+        .status-excused       { background:#d1ecf1; color:#0c5460; }
+        .status-early         { background:#e2e3e5; color:#383d41; }
+
+        /* Table overrides */
+        table thead { background: #e8f5e9; }
+        table th    { color: #155724; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 600px) {
+            .lect-header { flex-direction: column; gap: 12px; text-align: center; }
+            .lect-header-left { flex-direction: column; }
+            .lect-content { padding: 16px; }
+            .lect-profile-info { grid-template-columns: 1fr; }
+            .lect-profile-card { flex-direction: column; }
+            .stats-container { grid-template-columns: 1fr 1fr; }
         }
-
-        .admin-content {
-            padding: 30px;
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .stats-container { grid-template-columns: repeat(3, 1fr); }
         }
 
         .stats-container {
@@ -434,6 +557,11 @@
             color: #155724;
         }
 
+        .status-late {
+            background: #fff3cd;
+            color: #856404;
+        }
+
         .status-absent {
             background: #f8d7da;
             color: #721c24;
@@ -443,6 +571,11 @@
         .status-excused {
             background: #d1ecf1;
             color: #0c5460;
+        }
+
+        .status-early {
+            background: #e2e3e5;
+            color: #383d41;
         }
 
         .empty-state {
@@ -538,7 +671,7 @@
                 <!-- Role Selection -->
                 <div class="role-selector">
                     <button type="button" class="role-btn active" id="studentRoleBtn" onclick="selectRole('student')">Student</button>
-                    <button type="button" class="role-btn" id="adminRoleBtn" onclick="selectRole('admin')">Admin</button>
+                    <button type="button" class="role-btn" id="lecturerRoleBtn" onclick="selectRole('lecturer')">Lecturer</button>
                 </div>
                 
                 <!-- Login Form -->
@@ -608,8 +741,24 @@
                 </div>
 
                 <div class="form-group location-action-group">
-                    <button type="button" id="detectLocationButton" class="btn-secondary">Verify GPS Location</button>
-                    <div class="location-status" id="locationStatus">Select a location, then verify your GPS.</div>
+                    <!-- GPS live status bar (updated by watchPosition every second) -->
+                    <div id="gpsSignalBar" style="background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#1e3a8a">
+                        <strong>📡 GPS Status:</strong> <span id="gpsSignalText">Waiting for signal…</span>
+                    </div>
+
+                    <button type="button" id="detectLocationButton" class="btn-secondary">Check My Location</button>
+
+                    <div class="location-status" id="locationStatus" style="margin-top:10px;padding:10px 12px;border-radius:8px;background:#eef2ff;color:#1e3a8a;border:1px solid #c7d2fe;font-size:13px">
+                        Select a location above, then GPS will verify automatically.
+                    </div>
+
+                    <div id="nearestBuilding" style="margin-top:6px;font-size:12px;color:#666;font-style:italic"></div>
+
+                    <!-- Debug panel (collapsed by default) -->
+                    <details style="margin-top:10px">
+                        <summary style="font-size:12px;color:#888;cursor:pointer;user-select:none">🔧 Show GPS Debug Info</summary>
+                        <div id="gpsDebugPanel" style="margin-top:8px"></div>
+                    </details>
                 </div>
 
                 <div class="form-group">
@@ -664,58 +813,103 @@
             </form>
         </div>
 
-        <!-- Admin Dashboard Section -->
-        <div id="adminSection" class="admin-container hidden">
-            <div class="admin-header">
-                <h1>📊 Admin Dashboard</h1>
-                <button class="logout-btn" onclick="logout()">Logout</button>
+        <!-- Lecturer Dashboard Section -->
+        <div id="adminSection" class="lect-container hidden">
+
+            <!-- Header -->
+            <div class="lect-header">
+                <div class="lect-header-left">
+                    <span class="lect-header-icon">👨‍🏫</span>
+                    <div>
+                        <h1 class="lect-header-title">Lecturer Dashboard</h1>
+                        <div class="lect-header-sub" id="lectHeaderSub">UENR Attendance System</div>
+                    </div>
+                </div>
+                <button class="lect-logout-btn" onclick="logout()">Logout</button>
             </div>
 
-            <div class="admin-content">
-                <!-- Navigation Tabs -->
-                <div class="admin-nav">
-                    <button class="nav-btn active" onclick="showAdminTab('overview')">Overview</button>
-                    <button class="nav-btn" onclick="showAdminTab('records')">All Records</button>
-                    <button class="nav-btn" onclick="showAdminTab('students')">Student Activities</button>
-                    <button class="nav-btn" onclick="showAdminTab('calibration')">Location Calibration</button>
-                    <button class="nav-btn" onclick="showAdminTab('attendance-windows')">Attendance Windows</button>
+            <!-- Navigation -->
+            <div class="lect-nav-wrapper">
+                <div class="lect-nav">
+                    <button class="lect-nav-btn active" onclick="showAdminTab('overview')">
+                        <span>📊</span> Overview
+                    </button>
+                    <button class="lect-nav-btn" onclick="showAdminTab('records')">
+                        <span>📋</span> Attendance Records
+                    </button>
+                    <button class="lect-nav-btn" onclick="showAdminTab('students')">
+                        <span>👥</span> Student Activities
+                    </button>
+                    <button class="lect-nav-btn" onclick="showAdminTab('attendance-windows')">
+                        <span>🕐</span> Attendance Sessions
+                    </button>
+                    <button class="lect-nav-btn" onclick="showAdminTab('calibration')">
+                        <span>📍</span> Location Calibration
+                    </button>
+                    <button class="lect-nav-btn" onclick="showAdminTab('reports')">
+                        <span>📈</span> Reports
+                    </button>
+                    <button class="lect-nav-btn" onclick="showAdminTab('profile')">
+                        <span>👤</span> Profile
+                    </button>
                 </div>
+            </div>
 
-                <!-- Overview Tab -->
+            <div class="lect-content">
+
+                <!-- ── OVERVIEW TAB ── -->
                 <div id="overviewTab" class="admin-tab">
-                    <h2>Dashboard Overview</h2>
+                    <div class="lect-tab-header">
+                        <h2>Dashboard Overview</h2>
+                        <p>Live summary of today's attendance activity.</p>
+                    </div>
+
                     <div class="stats-container">
                         <div class="stat-card">
+                            <div class="stat-icon">🎓</div>
                             <h3>Total Students</h3>
                             <div class="stat-value" id="totalStudents">0</div>
                         </div>
                         <div class="stat-card">
+                            <div class="stat-icon">📄</div>
                             <h3>Total Records</h3>
                             <div class="stat-value" id="totalRecords">0</div>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card stat-card-green">
+                            <div class="stat-icon">✅</div>
                             <h3>Present Today</h3>
                             <div class="stat-value" id="presentToday">0</div>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card stat-card-red">
+                            <div class="stat-icon">❌</div>
                             <h3>Absent Today</h3>
                             <div class="stat-value" id="absentToday">0</div>
                         </div>
+                        <div class="stat-card stat-card-amber">
+                            <div class="stat-icon">⏰</div>
+                            <h3>Late Today</h3>
+                            <div class="stat-value" id="lateToday">0</div>
+                        </div>
                     </div>
 
-                    <h3 style="margin-top: 30px;">Recent Submissions</h3>
+                    <div class="lect-section-header">
+                        <h3>Recent Submissions</h3>
+                    </div>
                     <div id="recentRecords" class="table-container"></div>
                 </div>
 
-                <!-- All Records Tab -->
+                <!-- ── ATTENDANCE RECORDS TAB ── -->
                 <div id="recordsTab" class="admin-tab hidden">
-                    <h2>Attendance Records</h2>
-                    
+                    <div class="lect-tab-header">
+                        <h2>Attendance Records</h2>
+                        <p>Search, filter and review all student attendance submissions.</p>
+                    </div>
+
                     <div class="filter-section">
                         <div class="filter-group">
-                            <label>Filter by Course:</label>
+                            <label>Filter by Course</label>
                             <select id="filterCourse">
-                                <option value="">-- All Courses --</option>
+                                <option value="">All Courses</option>
                                 <option value="CS101">CS101 - Introduction to Programming</option>
                                 <option value="CS202">CS202 - Data Structures</option>
                                 <option value="CS303">CS303 - Web Development</option>
@@ -724,32 +918,40 @@
                             </select>
                         </div>
                         <div class="filter-group">
-                            <label>Filter by Status:</label>
+                            <label>Filter by Status</label>
                             <select id="filterStatus">
-                                <option value="">-- All Status --</option>
+                                <option value="">All Statuses</option>
                                 <option value="Present">Present</option>
+                                <option value="Late">Late</option>
                                 <option value="Absent">Absent</option>
                                 <option value="Excused Absence">Excused Absence</option>
                             </select>
                         </div>
                         <div class="filter-group">
-                            <label>Search by Student Name:</label>
-                            <input type="text" id="searchStudent" placeholder="Enter student name...">
+                            <label>Search Student</label>
+                            <input type="text" id="searchStudent" placeholder="Enter student name…">
+                        </div>
+                        <div class="filter-group">
+                            <label>Date</label>
+                            <input type="date" id="filterDate">
                         </div>
                         <button class="filter-btn" onclick="applyFilters()">Apply Filters</button>
-                        <button class="filter-btn" style="background: #6c757d;" onclick="clearFilters()">Clear</button>
+                        <button class="filter-btn lect-btn-grey" onclick="clearFilters()">Clear</button>
                     </div>
 
                     <div id="allRecordsTable" class="table-container"></div>
                 </div>
 
-                <!-- Student Activities Tab -->
+                <!-- ── STUDENT ACTIVITIES TAB ── -->
                 <div id="studentsTab" class="admin-tab hidden">
-                    <h2>Student Activities</h2>
-                    
+                    <div class="lect-tab-header">
+                        <h2>Student Activities</h2>
+                        <p>View the full attendance history for a specific student.</p>
+                    </div>
+
                     <div class="filter-section">
                         <div class="filter-group">
-                            <label>Select Student:</label>
+                            <label>Select Student</label>
                             <select id="selectedStudent" onchange="viewStudentActivity()">
                                 <option value="">-- Select a Student --</option>
                             </select>
@@ -759,39 +961,138 @@
                     <div id="studentActivityTable" class="table-container"></div>
                 </div>
 
-                <!-- Location Calibration Tab -->
+                <!-- ── ATTENDANCE SESSIONS (WINDOWS) TAB ── -->
+                <div id="attendanceWindowsTab" class="admin-tab hidden">
+                    <div class="lect-tab-header">
+                        <h2>Attendance Sessions</h2>
+                        <p>Configure start time, late cutoff, and end time for each course. Students are automatically marked Present, Late, or Absent based on when they submit.</p>
+                    </div>
+
+                    <div id="attendanceWindowsContainer"></div>
+                </div>
+
+                <!-- ── LOCATION CALIBRATION TAB ── -->
                 <div id="calibrationTab" class="admin-tab hidden">
-                    <h2>Location Calibration</h2>
-                    <p style="color: #666; margin-bottom: 20px;">Stand inside a UENR building and capture your current GPS location to calibrate the system with accurate coordinates.</p>
-                    
+                    <div class="lect-tab-header">
+                        <h2>Location Calibration</h2>
+                        <p>Stand inside a UENR lecture building and capture your GPS position to set the reference coordinates for student location verification.</p>
+                    </div>
+
                     <div class="filter-section">
                         <div class="filter-group">
-                            <label>Select Location to Calibrate:</label>
+                            <label>Select Location to Calibrate</label>
                             <select id="calibrationLocation">
                                 <option value="">-- Select Location --</option>
                             </select>
                         </div>
-                        <button class="filter-btn" onclick="captureLocationGPS()">Capture Current Location</button>
-                        <button class="filter-btn" style="background: #6c757d;" onclick="clearCalibrationData()">Clear</button>
+                        <button class="filter-btn" onclick="captureLocationGPS()">📍 Capture My GPS</button>
+                        <button class="filter-btn lect-btn-grey" onclick="clearCalibrationData()">Clear All</button>
                     </div>
 
-                    <div id="calibrationStatus" style="background: #eef2ff; color: #1e3a8a; padding: 15px; border-radius: 8px; border: 1px solid #c7d2fe; margin-bottom: 20px; display: none;">
+                    <div id="calibrationStatus" style="padding:15px;border-radius:8px;border:1px solid #c7d2fe;margin-bottom:20px;display:none;background:#eef2ff;color:#1e3a8a;">
                         <div id="calibrationStatusText"></div>
                     </div>
 
-                    <h3>Calibration History</h3>
+                    <div class="lect-section-header"><h3>Calibration History</h3></div>
                     <div id="calibrationTable" class="table-container"></div>
                 </div>
 
-                <!-- Attendance Windows Tab -->
-                <div id="attendanceWindowsTab" class="admin-tab hidden">
-                    <h2>Attendance Windows Configuration</h2>
-                    <p style="color: #666; margin-bottom: 20px;">Configure attendance time windows for each course. Students can only submit attendance during these periods.</p>
-                    
-                    <div id="attendanceWindowsContainer"></div>
+                <!-- ── REPORTS TAB ── -->
+                <div id="reportsTab" class="admin-tab hidden">
+                    <div class="lect-tab-header">
+                        <h2>Reports</h2>
+                        <p>Generate and export attendance reports by course, date range, or report type.</p>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-group">
+                            <label>Course</label>
+                            <select id="reportCourse">
+                                <option value="">All Courses</option>
+                                <option value="CS101">CS101 - Introduction to Programming</option>
+                                <option value="CS202">CS202 - Data Structures</option>
+                                <option value="CS303">CS303 - Web Development</option>
+                                <option value="CS404">CS404 - Database Management</option>
+                                <option value="CS505">CS505 - Software Engineering</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Report Type</label>
+                            <select id="reportType">
+                                <option value="all">All Records</option>
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly (last 7 days)</option>
+                                <option value="monthly">Monthly (last 30 days)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>From Date</label>
+                            <input type="date" id="reportDateFrom">
+                        </div>
+                        <div class="filter-group">
+                            <label>To Date</label>
+                            <input type="date" id="reportDateTo">
+                        </div>
+                        <button class="filter-btn" onclick="generateReport()">Generate Report</button>
+                        <button class="filter-btn lect-btn-grey" onclick="exportReportCSV()">⬇ Export CSV</button>
+                    </div>
+
+                    <div id="reportSummaryCards" class="stats-container" style="margin-bottom:20px"></div>
+                    <div id="reportTable" class="table-container"></div>
                 </div>
-            </div>
-        </div>
+
+                <!-- ── PROFILE TAB ── -->
+                <div id="profileTab" class="admin-tab hidden">
+                    <div class="lect-tab-header">
+                        <h2>Lecturer Profile</h2>
+                        <p>Your account information and credentials.</p>
+                    </div>
+
+                    <div class="lect-profile-card">
+                        <div class="lect-profile-avatar">👨‍🏫</div>
+                        <div class="lect-profile-info">
+                            <div class="lect-profile-field">
+                                <span class="lect-profile-label">Full Name</span>
+                                <span class="lect-profile-value" id="profileName">—</span>
+                            </div>
+                            <div class="lect-profile-field">
+                                <span class="lect-profile-label">Email Address</span>
+                                <span class="lect-profile-value" id="profileEmail">—</span>
+                            </div>
+                            <div class="lect-profile-field">
+                                <span class="lect-profile-label">Staff ID</span>
+                                <span class="lect-profile-value" id="profileStaffId">—</span>
+                            </div>
+                            <div class="lect-profile-field">
+                                <span class="lect-profile-label">Department</span>
+                                <span class="lect-profile-value" id="profileDept">—</span>
+                            </div>
+                            <div class="lect-profile-field">
+                                <span class="lect-profile-label">Role</span>
+                                <span class="lect-profile-value"><span class="status-badge" style="background:#d4edda;color:#155724">Lecturer</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lect-profile-card" style="margin-top:20px">
+                        <h3 style="margin-bottom:16px;color:#155724">Update Profile</h3>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                            <div class="form-group" style="margin:0">
+                                <label>Staff ID</label>
+                                <input type="text" id="editStaffId" placeholder="e.g. UENR-LEC-0042">
+                            </div>
+                            <div class="form-group" style="margin:0">
+                                <label>Department</label>
+                                <input type="text" id="editDept" placeholder="e.g. Computer Science">
+                            </div>
+                        </div>
+                        <button class="filter-btn" style="margin-top:16px" onclick="saveProfile()">Save Changes</button>
+                        <div id="profileSaveMsg" style="display:none;margin-top:10px;color:#155724;font-size:13px">✅ Profile updated successfully.</div>
+                    </div>
+                </div>
+
+            </div><!-- /.lect-content -->
+        </div><!-- /#adminSection -->
     </div>
 
     <script src="js/locations.js"></script>

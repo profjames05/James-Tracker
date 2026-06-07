@@ -143,13 +143,13 @@ window.getAttendanceStatusByTime = function(startTime, lateTime, endTime) {
     const endMinutes = window.parseTimeToMinutes(endTime);
     
     if (currentMinutes < startMinutes) {
-        return 'EARLY'; // Before attendance window opens
+        return 'Early'; // Before attendance window opens
     } else if (currentMinutes <= lateMinutes) {
-        return 'PRESENT'; // In on-time window
+        return 'Present'; // In on-time window
     } else if (currentMinutes <= endMinutes) {
-        return 'LATE'; // In late window
+        return 'Late'; // In late window
     } else {
-        return 'ABSENT'; // After attendance window closes
+        return 'Absent'; // After attendance window closes
     }
 };
 
@@ -252,7 +252,7 @@ window.setAttendanceWindow = function(courseId, startTime, lateTime, endTime) {
  * @param {number} minutesRemaining - Minutes remaining in window
  * @returns {string} - User-friendly message
  */
-window.getTimeStatusMessage = function(status, minutesRemaining) {
+window.getTimeStatusMessage = function(status, minutesRemaining, minutesIntoWindow, lateTime, startTime) {
     switch(status) {
         case 'NOT_STARTED':
             const hours = Math.floor(minutesRemaining / 60);
