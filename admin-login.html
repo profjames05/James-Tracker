@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Administration — UENR</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { align-items:center; }
+        .admin-login-card {
+            width:100%;
+            max-width:420px;
+            margin:0 auto;
+        }
+        .admin-login-header {
+            background:linear-gradient(135deg,#1a1a2e,#16213e);
+            color:#fff;
+            padding:32px 28px 24px;
+            text-align:center;
+            border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        .admin-login-header .icon { font-size:48px; margin-bottom:10px; }
+        .admin-login-header h1   { font-size:20px; font-weight:700; margin-bottom:4px; color:#fff; }
+        .admin-login-header p    { font-size:12px; color:rgba(255,255,255,.6); margin:0; }
+        .admin-login-body {
+            background:#fff;
+            padding:28px 28px 24px;
+            border-radius:0 0 var(--radius-lg) var(--radius-lg);
+            box-shadow:var(--shadow-lg);
+        }
+        .admin-login-body label { color:#333; }
+        .admin-btn {
+            width:100%;
+            padding:13px;
+            background:linear-gradient(135deg,#1a1a2e,#2d2d5e);
+            color:#fff;
+            border:none;
+            border-radius:var(--radius-sm);
+            font-size:15px;
+            font-weight:700;
+            cursor:pointer;
+            margin-top:4px;
+            transition:var(--transition);
+        }
+        .admin-btn:hover { opacity:.9; transform:translateY(-1px); }
+        .back-link {
+            display:block;
+            text-align:center;
+            margin-top:16px;
+            font-size:13px;
+            color:var(--green-primary);
+            text-decoration:none;
+            font-weight:600;
+        }
+        .back-link:hover { text-decoration:underline; }
+        .security-notice {
+            background:#fff3cd;
+            border:1px solid #ffc107;
+            border-radius:var(--radius-sm);
+            padding:10px 12px;
+            font-size:12px;
+            color:#856404;
+            margin-bottom:18px;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="admin-login-card">
+        <div class="admin-login-header">
+            <div class="icon">🔒</div>
+            <h1>System Administration</h1>
+            <p>University of Energy and Natural Resources</p>
+        </div>
+        <div class="admin-login-body">
+            <div class="security-notice">
+                ⚠️ Restricted access. Authorised personnel only.
+            </div>
+
+            <div class="alert-error" id="adminError" style="display:none;margin-bottom:16px"></div>
+
+            <div class="form-group">
+                <label for="adminEmail">Administrator Email</label>
+                <input type="email" id="adminEmail" placeholder="admin@uenr.edu.gh" autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <div class="pwd-wrap">
+                    <input type="password" id="adminPassword" placeholder="Enter password" autocomplete="current-password">
+                    <button type="button" class="eye-btn" onclick="toggleAdminPwd()">👁</button>
+                </div>
+            </div>
+
+            <button class="admin-btn" onclick="handleAdminLogin()">Access Admin Portal</button>
+            <a href="index.html" class="back-link">← Return to Main System</a>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ─── Admin credentials (stored in localStorage on first run) ─── */
+const ADMIN_EMAIL    = 'admin@uenr.edu.gh';
+const ADMIN_PASSWORD = 'admin123';
+
+function initAdmin() {
+    const admins = JSON.parse(localStorage.getItem('sysAdmins') || '{}');
+    if (!admins[ADMIN_EMAIL]) {
+        admins[ADMIN_EMAIL] = {
+            name      : 'System Administrator',
+            password  : ADMIN_PASSWORD,
+            staffId   : 'UENR-ADMIN-001',
+            department: 'ICT Administration'
+        };
+        localStorage.setItem('sysAdmins', JSON.stringify(admins));
+    }
+}
+initAdmin();
+
+function toggleAdminPwd() {
+    const el  = document.getElementById('adminPassword');
+    const btn = el.nextElementSibling;
+    const show = el.type === 'password';
+    el.type     = show ? 'text' : 'password';
+    btn.textContent = show ? '🙈' : '👁';
+}
+
+function handleAdminLogin() {
+    const email = document.getElementById('adminEmail').value.trim().toLowerCase();
+    const pwd   = document.getElementById('adminPassword').value;
+    const errEl = document.getElementById('adminError');
+
+    errEl.style.display = 'none';
+
+    if (!email || !pwd) {
+        errEl.textContent   = 'Please enter your email and password.';
+        errEl.style.display = 'block';
+        return;
+    }
+
+    const admins = JSON.parse(localStorage.getItem('sysAdmins') || '{}');
+    const record = admins[email];
+
+    if (!record || record.password !== pwd) {
+        errEl.textContent   = 'Invalid credentials. Access denied.';
+        errEl.style.display = 'block';
+        return;
+    }
+
+    /* Write a short-lived admin session */
+    const session = {
+        email,
+        name      : record.name,
+        role      : 'admin',
+        staffId   : record.staffId,
+        department: record.department,
+        expiresAt : Date.now() + 2 * 60 * 60 * 1000   // 2 hours
+    };
+    sessionStorage.setItem('adminSession', JSON.stringify(session));
+
+    window.location.href = 'admin-dashboard.html';
+}
+
+/* Allow Enter key */
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleAdminLogin();
+});
+</script>
+</body>
+</html>

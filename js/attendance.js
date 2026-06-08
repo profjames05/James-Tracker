@@ -19,6 +19,20 @@ function initAttendanceApp() {
     attendanceForm.addEventListener('submit', handleAttendanceSubmit);
     detectLocationButton.addEventListener('click', handleLocationCheck);
 
+    // Password strength bar on signup
+    const signupPwdEl = document.getElementById('signupPassword');
+    if (signupPwdEl) {
+        signupPwdEl.addEventListener('input', () => {
+            const score = checkPasswordStrength(signupPwdEl.value);
+            const bar   = document.getElementById('signupStrengthBar');
+            const txt   = document.getElementById('signupStrengthText');
+            const labels = ['', 'Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'];
+            const colors = ['#eee', '#dc3545', '#fd7e14', '#ffc107', '#28a745', '#006400'];
+            if (bar) { bar.style.background = colors[score] || '#eee'; bar.style.width = `${score * 20}%`; }
+            if (txt) { txt.textContent = signupPwdEl.value ? labels[score] : ''; txt.style.color = colors[score]; }
+        });
+    }
+
     document.querySelectorAll('input[name="attendance"]').forEach(checkbox => {
         checkbox.addEventListener('change', (e) => {
             if (e.target.checked) {
@@ -71,17 +85,43 @@ if (!localStorage.getItem('lecturers')) {
 function selectRole(role) {
     currentRole = role;
     document.getElementById('studentRoleBtn').classList.toggle('active', role === 'student');
-    document.getElementById('lecturerRoleBtn').classList.toggle('active', role === "lecturer");
+    document.getElementById('lecturerRoleBtn').classList.toggle('active', role === 'lecturer');
 
     const toggleText = document.getElementById('toggleText');
-    if (role === "lecturer") {
-        toggleText.textContent = "Don't have an lecturer account? ";
-    } else {
-        toggleText.textContent = "Don't have an account? ";
-    }
+    toggleText.textContent = role === 'lecturer'
+        ? "Don't have a lecturer account? "
+        : "Don't have an account? ";
+
+    // Show/hide ID fields in signup form
+    const studentIdGroup = document.getElementById('signupStudentIdGroup');
+    const staffIdGroup   = document.getElementById('signupStaffIdGroup');
+    const deptGroup      = document.getElementById('signupDeptGroup');
+    if (studentIdGroup) studentIdGroup.classList.toggle('hidden', role === 'lecturer');
+    if (staffIdGroup)   staffIdGroup.classList.toggle('hidden', role !== 'lecturer');
+    if (deptGroup)      deptGroup.classList.toggle('hidden', role !== 'lecturer');
 
     document.getElementById('authError').style.display = 'none';
     document.getElementById('loginForm').reset();
+}
+
+/** Toggle password field show/hide */
+function togglePwd(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    btn.textContent = isHidden ? '🙈' : '👁';
+}
+
+/** Password strength checker */
+function checkPasswordStrength(password) {
+    let score = 0;
+    if (password.length >= 8)  score++;
+    if (password.length >= 12) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+    return score;
 }
 
 function toggleAuthForm() {
@@ -134,41 +174,63 @@ function handleLogin(e) {
 
 function handleSignup(e) {
     e.preventDefault();
-    const name = document.getElementById('signupName').value.trim();
-    const email = document.getElementById('signupEmail').value.trim();
-    const password = document.getElementById('signupPassword').value;
+    const name            = document.getElementById('signupName').value.trim();
+    const email           = document.getElementById('signupEmail').value.trim();
+    const password        = document.getElementById('signupPassword').value;
     const confirmPassword = document.getElementById('signupConfirmPassword').value;
-    const authError = document.getElementById('authError');
+    const securityQ       = document.getElementById('signupSecurityQ').value;
+    const securityA       = document.getElementById('signupSecurityA').value.trim().toLowerCase();
+    const authError       = document.getElementById('authError');
+
+    authError.style.display = 'none';
 
     if (password !== confirmPassword) {
-        authError.textContent = 'Passwords do not match';
-        authError.style.display = 'block';
-        return;
+        authError.textContent = 'Passwords do not match.';
+        authError.style.display = 'block'; return;
+    }
+    if (password.length < 8) {
+        authError.textContent = 'Password must be at least 8 characters.';
+        authError.style.display = 'block'; return;
+    }
+    if (!/[A-Z]/.test(password)) {
+        authError.textContent = 'Password must contain at least one uppercase letter.';
+        authError.style.display = 'block'; return;
+    }
+    if (!/[0-9]/.test(password)) {
+        authError.textContent = 'Password must contain at least one number.';
+        authError.style.display = 'block'; return;
+    }
+    if (!securityQ) {
+        authError.textContent = 'Please select a security question.';
+        authError.style.display = 'block'; return;
+    }
+    if (!securityA) {
+        authError.textContent = 'Please provide a security answer.';
+        authError.style.display = 'block'; return;
     }
 
-    if (currentRole === "lecturer") {
-        const admins = getAdmins();
+    if (currentRole === 'lecturer') {
+        const staffId = document.getElementById('signupStaffId').value.trim();
+        const dept    = document.getElementById('signupDept').value.trim();
+        const admins  = getAdmins();
         if (admins[email]) {
-            authError.textContent = 'Email already registered as admin';
-            authError.style.display = 'block';
-            return;
+            authError.textContent = 'Email already registered as lecturer.';
+            authError.style.display = 'block'; return;
         }
-        admins[email] = { name, password };
+        admins[email] = { name, password, staffId, department: dept, securityQ, securityA };
         saveAdmins(admins);
-        authError.style.display = 'none';
-        currentUser = { email, name, role: "lecturer" };
+        currentUser = { email, name, role: 'lecturer' };
         showAdminSection();
         e.target.reset();
     } else {
-        const users = getUsers();
+        const studentId = document.getElementById('signupStudentId').value.trim();
+        const users     = getUsers();
         if (users[email]) {
-            authError.textContent = 'Email already registered as student';
-            authError.style.display = 'block';
-            return;
+            authError.textContent = 'Email already registered as student.';
+            authError.style.display = 'block'; return;
         }
-        users[email] = { name, password };
+        users[email] = { name, password, studentId, securityQ, securityA };
         saveUsers(users);
-        authError.style.display = 'none';
         currentUser = { email, name, role: 'student' };
         showAttendanceSection();
         e.target.reset();
@@ -1151,7 +1213,7 @@ function buildWindowModal() {
 
             <div style="display:flex;gap:10px;justify-content:flex-end">
                 <button onclick="closeWindowModal()" style="padding:10px 24px;background:#f0f0f0;color:#333;border:1px solid #ddd;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer">Cancel</button>
-                <button onclick="saveWindowFromModal()" style="padding:10px 24px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer">Save Window</button>
+                <button onclick="saveWindowFromModal()" style="padding:10px 24px;background:linear-gradient(135deg,#0B6E4F,#228B22);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer">Save Window</button>
             </div>
         </div>
     </div>`;
